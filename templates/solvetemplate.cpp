@@ -16,8 +16,18 @@ typedef __gnu_pbds::tree<ll, __gnu_pbds::null_type, less_equal<int>, __gnu_pbds:
 #define vvi vector<vector<int>>
 #define vi vector<int>
 #define endl "\n"
+#define s second
+#define f first
 
 #define debug(lab) (cout<<"here "<<lab<<endl)
+
+int T = 0;
+void printarr(vi &a, int testcase){
+	if(T==testcase){
+		for(int i = 0; i<a.size(); i++) cout<<a[i]<<"-";
+		cout<<endl;
+	}
+}
 
 int gcdextended(int a, int b, int *x, int *y){
     if(a == 0){
@@ -52,6 +62,9 @@ void xen(){
 int32_t main(){
     cin.tie(nullptr)->sync_with_stdio(false);
     int t; cin>>t;
-    while(t--) xen();
+    while(t--){
+    	T++;
+    	xen();
+    }
     return 0;
 }
