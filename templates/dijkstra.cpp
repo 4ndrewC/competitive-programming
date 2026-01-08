@@ -18,53 +18,30 @@ typedef __gnu_pbds::tree<ll, __gnu_pbds::null_type, less_equal<int>, __gnu_pbds:
 
 #define debug(lab) (cout<<"here "<<lab<<endl)
 
-int n, m;
-vi dist;
-vvi g;
-
-int minDistance(vi dist, vi sptSet)
-{
-
-    // Initialize min value
-    int min = INT_MAX, min_index;
-
-    for (int v = 0; v < n; v++)
-        if (sptSet[v] == 0 && dist[v] <= min)
-            min = dist[v], min_index = v;
-
-    return min_index;
-}
-
-void dijkstra(vvi graph, int src)
-{
-    vi sptSet(n);
-    for (int i = 0; i < n; i++)
-        dist[i] = INT_MAX, sptSet[i] = false;
-
-    dist[src] = 0;
-
-    for (int count = 0; count < n - 1; count++) {
-        int u = minDistance(dist, sptSet);
-        sptSet[u] = true;
-        for (int v = 0; v < n; v++)
-            if (!sptSet[v] && graph[u][v]
-                && dist[u] != INT_MAX
-                && dist[u] + graph[u][v] < dist[v])
-                dist[v] = dist[u] + graph[u][v];
-    }
-}
-
-
 void xen(){
-    cin>>n>>m;
-    int u, v, w;
-    vvi g(n, vi(n));
-    for(int i = 0; i<n; i++){
-        cin>>u>>v>>w;
-        --u; --v;
-        g[u][v] = w;
-        g[v][u] = w;
-    }
+
+    int n, m; cin >> n >> m;
+    vector<vector<pair<int,int>>> g(n);
+    vector<ll> dist(n, INF);
+
+    auto dijkstra = [&](int s) {
+        fill(dist.begin(), dist.end(), INF);
+        priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;
+        dist[s] = 0;
+        pq.push({0, s});
+        while (!pq.empty()) {
+            auto [d, u] = pq.top(); pq.pop();
+            if (d != dist[u]) continue;
+            for (auto [v, w] : g[u]) {
+                if (dist[v] > d + w) {
+                    dist[v] = d + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+    };
+
+    
 }
 
 
@@ -74,4 +51,5 @@ int main(){
     int t; cin>>t;
     while(t--) xen();
     return 0;
+
 }
